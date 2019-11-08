@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/kbf.css">
+</head>
+<body>
+<div id="app">
+    <el-header style="text-align: right; font-size: 12px">
+        <el-button @click="openGpu">gpu使用</el-button>
+        <el-button @click="openDia">Create TFJob</el-button>
+
+        <el-dialog :visible.sync="visible" style="text-align: left; font-size: 9px;"
+                   title="Pod 信息"
+                   width="80%"
+                   :show-close=true
+                   :close-on-click-modal=false>
+            <el-table :data="podData">
+                <el-table-column prop="name" label="名称">
+                </el-table-column>
+                <el-table-column prop="phase" label="状态">
+                </el-table-column>
+                <el-table-column label="操作">
+                    <template slot-scope="scope">
+                        <el-button @click="logClick(scope.row)" type="text" size="small">查看日志</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-dialog>
+
+        <el-dialog :visible.sync="visibleLog" style="text-align: left; font-size: 9px;"
+                   title="Log 信息"
+                   :show-close=true
+                   :close-on-click-modal=true>
+            <el-form label-width="10px">
+                <el-form-item label="">
+                    <el-input
+                            type="textarea"
+                            :rows="20"
+                            v-model="podLog">
+                    </el-input>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+
+        <el-dialog :visible.sync="visibleGpu" style="text-align: left; font-size: 9px;"
+                   title="GPU 信息"
+                   width="80%"
+                   :show-close=true
+                   :close-on-click-modal=true>
+            <el-form label-width="10px">
+                <el-form-item label="">
+                    <el-input
+                            type="textarea"
+                            :rows="40"
+                            v-model="gpuInfo">
+                    </el-input>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+
+        <el-dialog :visible.sync="visibleCreate" style="text-align: left; font-size: 9px;"
+                   title="创建TFJob"
+                   :show-close=false
+                   :close-on-click-modal=false>
+            <el-form ref="form" :model="form" label-width="120px" :rules="rules">
+                <div style="border-bottom: #3a8ee6;border-bottom-style: solid;">
+                    <el-form-item label="train name" prop="trainName">
+                        <el-input v-model="form.trainName"></el-input>
+                    </el-form-item>
+                </div>
+                <div v-for="rep in form.replicas">
+                    <template v-if="rep.is==1">
+                        <el-form-item label="type" prop="type">
+                            <el-radio v-model="rep.type" label="1">Master</el-radio>
+                            <el-radio v-model="rep.type" label="2">Worker</el-radio>
+                            <el-radio v-model="rep.type" label="3">Ps</el-radio>
+                        </el-form-item>
+                        <el-form-item label="Num" prop="num">
+                            <el-input v-model="rep.num"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Image" prop="kind">
+                            <el-input v-model="rep.image"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Command" prop="command">
+                            <el-input v-model="rep.command"></el-input>
+                        </el-form-item>
+                        <el-row v-for="arg in rep.args">
+                            <div v-if="arg.is==1">
+                                <el-col :span="8">
+                                    <el-form-item label="Key" prop="key" >
+                                        <el-input v-model="arg.key"></el-input>
+                                    </el-form-item></el-col>
+                                <el-col :span="8">
+                                    <el-form-item label="value" prop="value">
+                                        <el-input v-model="arg.value"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="8" style="padding-left:30px">
+                                    <el-button  @click="addArg(rep)" style="float:inherit">+</el-button>
+                                    <el-button  @click="removeArg(rep, arg)" style="float:inherit">-</el-button>
+                                </el-col>
+                            </div>
+                        </el-row>
+                        <el-form-item label="Gpu" prop="kind" v-if="rep.type!=3">
+                            <el-input v-model="rep.gpu"></el-input>
+                        </el-form-item>
+                        <el-row>
+                            <el-col :span="10">&nbsp;</el-col>
+                            <el-col :span="14" style="padding-left:30px">
+                                <el-button  @click="addRep" style="float:inherit">Add Replica</el-button>
+                                <el-button  @click="removeRep(rep)" style="float:inherit">Remove Replica</el-button>
+                            </el-col>
+                        </el-row>
+                        <hr>
+                    </template>
+                </div>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button  @click="visibleCreate = false">关闭</el-button>
+                <el-button  @click="deployTFJob" type="primary">部署</el-button>
+            </div>
+        </el-dialog>
+    </el-header>
+    <el-container style="height:100%; border: 1px solid #eee">
+        <el-aside width="200px">
+            <el-menu :default-openeds="['2']" default-active="2-2">
+                <el-submenu index="2">
+                    <template slot="title"><i class="el-icon-menu"></i>KBF</template>
+                    <el-menu-item-group>
+                        <el-menu-item index="2-1" @click="clickPV">PV/PVC</el-menu-item>
+                        <el-menu-item index="2-2" @click="clickTFJ">TFJob</el-menu-item>
+                        <el-menu-item index="2-3" @click="clickMod">模型预测</el-menu-item>
+                        <el-menu-item index="2-4" @click="clickSig">单机训练</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+            </el-menu>
+        </el-aside>
+
+        <el-container style="height:100%; border: 1px solid #eee" direction="vertical">
+            <el-main>
+                <el-table :data="tableData">
+                    <el-table-column prop="name" label="名称">
+                    </el-table-column>
+                    <el-table-column prop="namespace" label="命名空间">
+                    </el-table-column>
+                    <el-table-column prop="creationTimestamp" label="创建时间">
+                    </el-table-column>
+                    <el-table-column label="操作">
+                        <template slot-scope="scope">
+                            <el-button @click="rowClick(scope.row)" type="text" size="small">Pod信息</el-button>
+                            <el-button @click="deleteClick(scope.row)" type="text" size="small"> 删除 </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </el-main>
+        </el-container>
+    </el-container>
+
+</div>
+
+
+<script src="js/vue.min.js"></script>
+<script src="js/elementui/index.js"></script>
+<script src="js/axios.min.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                visible: false,
+                tableData: [],
+                podData: [],
+                tfjPod:'',
+                podLog:'',
+                gpuInfo:'',
+                visibleLog:false,
+                visibleCreate:false,
+                visibleGpu:false,
+                repId:0,
+                argId:0,
+                form: {
+                    trainName:'',
+                    replicas:[
+                        {
+                            id:0,
+                            is:1,
+                            type:'1',
+                            num:'',
+                            image:'',
+                            command:'',
+                            args:[{key:'', value:'', id:0, is:1}],
+                            gpu:''
+                        }
+                    ],
+                },
+                rules: {
+                    trainName: [
+                        { required: true, message: '请输入Train Name', trigger: 'blur' }
+                    ]
+                }
+            }
+        },
+        methods:{
+            removeReplica: function(arr, item) {
+                if (arr.length <= 1) {
+                    return false
+                }
+                let inx = 0;
+                arr.forEach(obj => {
+                    if(obj.id === item.id) {
+                        item.is=0
+                        arr.splice(inx, 1)
+                        return true
+                    }
+                    inx++
+                })
+                // let newArr = arr.splice(inx, 1)
+            },
+            deployTFJob: function() {
+                let _self = this
+                let postData = JSON.parse(JSON.stringify(this.form))
+                this.$refs["form"].validate((valid) => {
+                        if (valid) {
+                            axios.post('/deploy-tfj', postData).then(function (response) {
+                                if(response.status === 200) {
+                                    const h = _self.$createElement;
+                                    _self.$notify({
+                                        title: '操作提示',
+                                        message: h('i', { style: 'color: teal'}, '部署TFJ成功。')
+                                    });
+                                    _self.getTfj()
+                                    _self.visibleCreate = false
+                                }
+                            })
+                        }
+                    }
+                )
+            },
+            addRep: function() {
+                this.repId++
+                this.argId++
+                this.form.replicas.push(
+                    {
+                        id:this.repId,
+                        is:1,
+                        type:'1',
+                        num:'',
+                        image:'',
+                        command:'',
+                        args:[{key:'',value:'',id:this.argId,is:1}],
+                        gpu:''
+                    }
+                )
+            },
+            removeRep: function(item) {
+                this.removeReplica(this.form.replicas, item)
+            },
+            addArg: function(rep) {
+                this.argId++
+                rep.args.push(
+                    {key:'',value:'',id:this.argId,is:1}
+                )
+            },
+            removeArg: function(rep, item){
+                if (rep.args.length <= 1) {
+                    return false
+                }
+                let inx = 0;
+                rep.args.forEach(obj => {
+                    if(obj.id === item.id) {
+                        obj.is=0
+                        rep.args.splice(inx, 1)
+                        return true
+                    }
+                    inx++
+                })
+            },
+            rowClick: function(row) {
+                let _self = this
+                _self.visible = true
+                axios.get('/get-tfj-pod/' + row.name + '/' + row.namespace).then(function(response) {
+                    let jsonObj = JSON.parse(response.data.message)
+                    if(response.status === 200) {
+                        let pvRows = []
+                        jsonObj.items.forEach((item) => {
+                            let pvRow = {
+                                name:item.metadata.name,
+                                namespace:item.metadata.namespace,
+                                phase:item.status.phase
+                            }
+                            pvRows.push(pvRow)
+                        })
+                        _self.podData = pvRows
+                    }
+                }).catch(function (error) { // 请求失败处理
+                    console.log(error);
+                });
+            },
+            deleteClick: function(row) {
+                let _self = this
+                this.$confirm('是否删除该TFJob:'+row.name+'?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.get('/delete-tfj/' + row.name + '/' + row.namespace).then(function(response) {
+                        if (response.status === 200) {
+
+                            const h = _self.$createElement;
+                            _self.$notify({
+                                title: '操作提示',
+                                message: h('i', { style: 'color: teal'}, '删除TFJ成功,正在删除ConfigMap...')
+                            });
+                            _self.getTfj()
+
+                            axios.get('/configmap').then(function(response) {
+                                if (response.status === 200) {
+                                    let jsonObj = JSON.parse(response.data.message)
+                                    console.log("########### configmap #################")
+                                    console.log(jsonObj)
+                                    let pvRows = []
+                                    jsonObj.items.forEach((item) => {
+                                        if(item.data.name === row.name) {
+                                            let configMapName = item.metadata.name
+                                            console.log("########### configmap-remove : " + configMapName)
+                                            axios.get('/configmap-remove/'+configMapName).then(function(response) {
+                                                if (response.status === 200) {
+                                                    const h = _self.$createElement;
+                                                    _self.$notify({
+                                                        title: '操作提示',
+                                                        message: h('i', { style: 'color: teal'}, '删除ConfigMap成功。')
+                                                    });
+                                                }
+                                            }).catch(function (error) { // 请求失败处理
+                                                console.log(error);
+                                            });
+                                            return true
+                                        }
+                                    })
+                                }
+                            }).catch(function (error) { // 请求失败处理
+                                console.log(error);
+                            });
+
+                        }
+                    }).catch(function (error) { // 请求失败处理
+                        console.log(error);
+                    });
+
+
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+
+            },
+            logClick: function(row) {
+                let _self = this
+                _self.visibleLog = true
+                axios.get('/get-tfj-log/' + row.name + '/' + row.namespace).then(function(response) {
+                    _self.podLog = response.data.message
+                }).catch(function (error) { // 请求失败处理
+                    console.log(error);
+                });
+            },
+            clickTFJ: function(){
+                location.href="/html/tfj.html"
+            },
+            clickPV: function(){
+                location.href="/html"
+            },
+            clickMod: function(){
+                location.href="/html/predict.html"
+            },
+            clickSig: function(){
+                location.href="/html/single.html"
+            },
+            openDia: function() {
+                this.visibleCreate = true
+                this.repId = 0
+                this.argId = 0
+                this.form = {
+                    trainName:'',
+                    replicas:[
+                        {
+                            id:0,
+                            is:1,
+                            type:'1',
+                            num:'',
+                            image:'',
+                            command:'',
+                            args:[{key:'',value:'',id:0,is:1}],
+                            gpu:''
+                        }
+                    ],
+                }
+            },
+            getTfj: function() {
+                let _self = this
+                axios.get('/tfjob').then(function(response) {
+                    let jsonObj = JSON.parse(response.data.message)
+                    console.log("########### tfjob data #################")
+                    console.log(jsonObj)
+                    let pvRows = []
+                    jsonObj.items.forEach((item) => {
+                        let pvRow = {
+                            name:item.metadata.name,
+                            namespace:item.metadata.namespace,
+                            creationTimestamp:item.metadata.creationTimestamp,
+                        }
+                        pvRows.push(pvRow)
+                    })
+                    _self.tableData = pvRows
+                }).catch(function (error) { // 请求失败处理
+                    console.log(error);
+                });
+            },
+            openGpu: function () {
+                let _self = this
+                _self.visibleGpu = true
+                axios.get('/gpu').then(function(response) {
+                    _self.gpuInfo = response.data.message
+                }).catch(function (error) { // 请求失败处理
+                    console.log(error);
+                });
+            }
+        },
+        mounted: function() {
+            let _self = this
+            _self.getTfj()
+        }
+    })
+</script>
+</body>
+</html>

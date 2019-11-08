@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: 1111
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      containers:
+        - image: Image
+          imagePullPolicy: Never
+          name: tensorflow
+          command: Command
+          args:
+            - --1=1
+            - --2=2
+            - --3=3
+          resources:
+            limits:
+              nvidia.com/gpu: Gpu
+          volumeMounts:
+            - name: VolumeMount
+              mountPath: Mount Path
+      volumes:
+        - name: Volumes nam
+          persistentVolumeClaim:
+            claimName: Volumes nam
+      restartPolicy: Never

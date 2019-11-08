@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{job_name}}
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      containers:
+        - image: {{image}}
+          imagePullPolicy: Never
+          name: tensorflow
+          command:  ["{{comm}}", "{{arg}}"]
+          args:
+          {{#args}}
+  - --{{Key}}={{Value}}
+          {{/args}}resources:
+            limits:
+              nvidia.com/gpu: {{gpu}}
+          volumeMounts:
+            - name: {{volumeMountname}}
+              mountPath: "{{mountPath}}"
+      volumes:
+        - name: {{valumesName}}
+          persistentVolumeClaim:
+            claimName: {{valumesNameClaim}}
+      restartPolicy: Never

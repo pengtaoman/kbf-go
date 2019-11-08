@@ -1,0 +1,729 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "creationTimestamp": "2019-10-08T08:32:44Z",
+        "finalizers": [
+          "kubernetes.io/pv-protection"
+        ],
+        "labels": {
+          "app": "katib",
+          "type": "local"
+        },
+        "name": "katib-mysql",
+        "resourceVersion": "34675029",
+        "selfLink": "/api/v1/persistentvolumes/katib-mysql",
+        "uid": "32f1e260-e9a6-11e9-a902-2c4d5443b5c3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "capacity": {
+          "storage": "10Gi"
+        },
+        "hostPath": {
+          "path": "/data/katib",
+          "type": ""
+        },
+        "persistentVolumeReclaimPolicy": "Retain",
+        "volumeMode": "Filesystem"
+      },
+      "status": {
+        "phase": "Available"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "annotations": {
+          "pv.kubernetes.io/bound-by-controller": "yes"
+        },
+        "creationTimestamp": "2019-03-07T04:48:38Z",
+        "finalizers": [
+          "kubernetes.io/pv-protection"
+        ],
+        "name": "kubeflow-pv1",
+        "resourceVersion": "5258",
+        "selfLink": "/api/v1/persistentvolumes/kubeflow-pv1",
+        "uid": "462080c9-4094-11e9-be77-2c4d5443b5c3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "capacity": {
+          "storage": "20Gi"
+        },
+        "claimRef": {
+          "apiVersion": "v1",
+          "kind": "PersistentVolumeClaim",
+          "name": "mysql-pv-claim",
+          "namespace": "kubeflow",
+          "resourceVersion": "3744",
+          "uid": "0d423e1b-4095-11e9-be77-2c4d5443b5c3"
+        },
+        "local": {
+          "path": "/u01/local-storage/pv1"
+        },
+        "nodeAffinity": {
+          "required": {
+            "nodeSelectorTerms": [
+              {
+                "matchExpressions": [
+                  {
+                    "key": "kubernetes.io/hostname",
+                    "operator": "In",
+                    "values": [
+                      "junnan-gpu"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "persistentVolumeReclaimPolicy": "Retain",
+        "storageClassName": "local-storage",
+        "volumeMode": "Filesystem"
+      },
+      "status": {
+        "phase": "Bound"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "annotations": {
+          "pv.kubernetes.io/bound-by-controller": "yes"
+        },
+        "creationTimestamp": "2019-03-07T04:48:38Z",
+        "finalizers": [
+          "kubernetes.io/pv-protection"
+        ],
+        "name": "kubeflow-pv2",
+        "resourceVersion": "1811536",
+        "selfLink": "/api/v1/persistentvolumes/kubeflow-pv2",
+        "uid": "46465d80-4094-11e9-be77-2c4d5443b5c3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "capacity": {
+          "storage": "20Gi"
+        },
+        "claimRef": {
+          "apiVersion": "v1",
+          "kind": "PersistentVolumeClaim",
+          "name": "gpu2-workspace",
+          "namespace": "kubeflow",
+          "resourceVersion": "1811532",
+          "uid": "395ed7c0-4960-11e9-8c7d-2c4d5443b5c3"
+        },
+        "local": {
+          "path": "/u01/local-storage/pv2"
+        },
+        "nodeAffinity": {
+          "required": {
+            "nodeSelectorTerms": [
+              {
+                "matchExpressions": [
+                  {
+                    "key": "kubernetes.io/hostname",
+                    "operator": "In",
+                    "values": [
+                      "junnan-gpu"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "persistentVolumeReclaimPolicy": "Retain",
+        "storageClassName": "local-storage",
+        "volumeMode": "Filesystem"
+      },
+      "status": {
+        "phase": "Bound"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "annotations": {
+          "pv.kubernetes.io/bound-by-controller": "yes"
+        },
+        "creationTimestamp": "2019-03-07T04:48:39Z",
+        "finalizers": [
+          "kubernetes.io/pv-protection"
+        ],
+        "name": "kubeflow-pv3",
+        "resourceVersion": "5950",
+        "selfLink": "/api/v1/persistentvolumes/kubeflow-pv3",
+        "uid": "466978bd-4094-11e9-be77-2c4d5443b5c3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "capacity": {
+          "storage": "20Gi"
+        },
+        "claimRef": {
+          "apiVersion": "v1",
+          "kind": "PersistentVolumeClaim",
+          "name": "gpu-workspace",
+          "namespace": "kubeflow",
+          "resourceVersion": "5946",
+          "uid": "27ca722d-4096-11e9-be77-2c4d5443b5c3"
+        },
+        "local": {
+          "path": "/u01/local-storage/pv3"
+        },
+        "nodeAffinity": {
+          "required": {
+            "nodeSelectorTerms": [
+              {
+                "matchExpressions": [
+                  {
+                    "key": "kubernetes.io/hostname",
+                    "operator": "In",
+                    "values": [
+                      "junnan-gpu"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "persistentVolumeReclaimPolicy": "Retain",
+        "storageClassName": "local-storage",
+        "volumeMode": "Filesystem"
+      },
+      "status": {
+        "phase": "Bound"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "creationTimestamp": "2019-03-07T04:48:39Z",
+        "finalizers": [
+          "kubernetes.io/pv-protection"
+        ],
+        "name": "kubeflow-pv4",
+        "resourceVersion": "1495",
+        "selfLink": "/api/v1/persistentvolumes/kubeflow-pv4",
+        "uid": "468d4b31-4094-11e9-be77-2c4d5443b5c3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "capacity": {
+          "storage": "20Gi"
+        },
+        "local": {
+          "path": "/u01/local-storage/pv4"
+        },
+        "nodeAffinity": {
+          "required": {
+            "nodeSelectorTerms": [
+              {
+                "matchExpressions": [
+                  {
+                    "key": "kubernetes.io/hostname",
+                    "operator": "In",
+                    "values": [
+                      "junnan-gpu"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "persistentVolumeReclaimPolicy": "Retain",
+        "storageClassName": "local-storage",
+        "volumeMode": "Filesystem"
+      },
+      "status": {
+        "phase": "Available"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "annotations": {
+          "pv.kubernetes.io/bound-by-controller": "yes"
+        },
+        "creationTimestamp": "2019-03-07T04:48:39Z",
+        "finalizers": [
+          "kubernetes.io/pv-protection"
+        ],
+        "name": "kubeflow-pv5",
+        "resourceVersion": "5226",
+        "selfLink": "/api/v1/persistentvolumes/kubeflow-pv5",
+        "uid": "46af990d-4094-11e9-be77-2c4d5443b5c3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "capacity": {
+          "storage": "20Gi"
+        },
+        "claimRef": {
+          "apiVersion": "v1",
+          "kind": "PersistentVolumeClaim",
+          "name": "minio-pv-claim",
+          "namespace": "kubeflow",
+          "resourceVersion": "3698",
+          "uid": "0d339073-4095-11e9-be77-2c4d5443b5c3"
+        },
+        "local": {
+          "path": "/u01/local-storage/pv5"
+        },
+        "nodeAffinity": {
+          "required": {
+            "nodeSelectorTerms": [
+              {
+                "matchExpressions": [
+                  {
+                    "key": "kubernetes.io/hostname",
+                    "operator": "In",
+                    "values": [
+                      "junnan-gpu"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "persistentVolumeReclaimPolicy": "Retain",
+        "storageClassName": "local-storage",
+        "volumeMode": "Filesystem"
+      },
+      "status": {
+        "phase": "Bound"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "creationTimestamp": "2019-03-07T04:48:39Z",
+        "finalizers": [
+          "kubernetes.io/pv-protection"
+        ],
+        "name": "kubeflow-pv6",
+        "resourceVersion": "1502",
+        "selfLink": "/api/v1/persistentvolumes/kubeflow-pv6",
+        "uid": "46d526da-4094-11e9-be77-2c4d5443b5c3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "capacity": {
+          "storage": "20Gi"
+        },
+        "local": {
+          "path": "/u01/local-storage/pv6"
+        },
+        "nodeAffinity": {
+          "required": {
+            "nodeSelectorTerms": [
+              {
+                "matchExpressions": [
+                  {
+                    "key": "kubernetes.io/hostname",
+                    "operator": "In",
+                    "values": [
+                      "junnan-gpu"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "persistentVolumeReclaimPolicy": "Retain",
+        "storageClassName": "local-storage",
+        "volumeMode": "Filesystem"
+      },
+      "status": {
+        "phase": "Available"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "annotations": {
+          "pv.kubernetes.io/bound-by-controller": "yes"
+        },
+        "creationTimestamp": "2019-03-07T04:48:40Z",
+        "finalizers": [
+          "kubernetes.io/pv-protection"
+        ],
+        "name": "kubeflow-pv7",
+        "resourceVersion": "709189",
+        "selfLink": "/api/v1/persistentvolumes/kubeflow-pv7",
+        "uid": "46fa0402-4094-11e9-be77-2c4d5443b5c3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "capacity": {
+          "storage": "20Gi"
+        },
+        "claimRef": {
+          "apiVersion": "v1",
+          "kind": "PersistentVolumeClaim",
+          "name": "cpu-workspace",
+          "namespace": "kubeflow",
+          "resourceVersion": "709184",
+          "uid": "f566042c-4401-11e9-8c7d-2c4d5443b5c3"
+        },
+        "local": {
+          "path": "/u01/local-storage/pv7"
+        },
+        "nodeAffinity": {
+          "required": {
+            "nodeSelectorTerms": [
+              {
+                "matchExpressions": [
+                  {
+                    "key": "kubernetes.io/hostname",
+                    "operator": "In",
+                    "values": [
+                      "junnan-gpu"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "persistentVolumeReclaimPolicy": "Retain",
+        "storageClassName": "local-storage",
+        "volumeMode": "Filesystem"
+      },
+      "status": {
+        "phase": "Bound"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "annotations": {
+          "pv.kubernetes.io/bound-by-controller": "yes"
+        },
+        "creationTimestamp": "2019-03-07T04:48:40Z",
+        "finalizers": [
+          "kubernetes.io/pv-protection"
+        ],
+        "name": "kubeflow-pv8",
+        "resourceVersion": "5250",
+        "selfLink": "/api/v1/persistentvolumes/kubeflow-pv8",
+        "uid": "471ee66e-4094-11e9-be77-2c4d5443b5c3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "capacity": {
+          "storage": "20Gi"
+        },
+        "claimRef": {
+          "apiVersion": "v1",
+          "kind": "PersistentVolumeClaim",
+          "name": "katib-mysql",
+          "namespace": "kubeflow",
+          "resourceVersion": "3981",
+          "uid": "14465877-4095-11e9-be77-2c4d5443b5c3"
+        },
+        "local": {
+          "path": "/u01/local-storage/pv8"
+        },
+        "nodeAffinity": {
+          "required": {
+            "nodeSelectorTerms": [
+              {
+                "matchExpressions": [
+                  {
+                    "key": "kubernetes.io/hostname",
+                    "operator": "In",
+                    "values": [
+                      "junnan-gpu"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "persistentVolumeReclaimPolicy": "Retain",
+        "storageClassName": "local-storage",
+        "volumeMode": "Filesystem"
+      },
+      "status": {
+        "phase": "Bound"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "creationTimestamp": "2019-03-07T04:48:40Z",
+        "finalizers": [
+          "kubernetes.io/pv-protection"
+        ],
+        "name": "kubeflow-pv9",
+        "resourceVersion": "1511",
+        "selfLink": "/api/v1/persistentvolumes/kubeflow-pv9",
+        "uid": "4744324f-4094-11e9-be77-2c4d5443b5c3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "capacity": {
+          "storage": "20Gi"
+        },
+        "local": {
+          "path": "/u01/local-storage/pv9"
+        },
+        "nodeAffinity": {
+          "required": {
+            "nodeSelectorTerms": [
+              {
+                "matchExpressions": [
+                  {
+                    "key": "kubernetes.io/hostname",
+                    "operator": "In",
+                    "values": [
+                      "junnan-gpu"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "persistentVolumeReclaimPolicy": "Retain",
+        "storageClassName": "local-storage",
+        "volumeMode": "Filesystem"
+      },
+      "status": {
+        "phase": "Available"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"PersistentVolume\",\"metadata\":{\"annotations\":{},\"labels\":{\"pv\":\"test1-pv\"},\"name\":\"test1-pv\"},\"spec\":{\"accessModes\":[\"ReadWriteMany\"],\"capacity\":{\"storage\":\"25Gi\"},\"hostPath\":{\"path\":\"/u01/yangyue5/pets_data\"},\"storageClassName\":\"test1-pv\"}}\n",
+          "pv.kubernetes.io/bound-by-controller": "yes"
+        },
+        "creationTimestamp": "2019-09-24T06:25:04Z",
+        "finalizers": [
+          "kubernetes.io/pv-protection"
+        ],
+        "labels": {
+          "pv": "test1-pv"
+        },
+        "name": "test1-pv",
+        "resourceVersion": "32397353",
+        "selfLink": "/api/v1/persistentvolumes/test1-pv",
+        "uid": "0bdcfb41-de94-11e9-a902-2c4d5443b5c3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteMany"
+        ],
+        "capacity": {
+          "storage": "25Gi"
+        },
+        "claimRef": {
+          "apiVersion": "v1",
+          "kind": "PersistentVolumeClaim",
+          "name": "pets-pvc",
+          "namespace": "kubeflow",
+          "resourceVersion": "32397351",
+          "uid": "0eb27e04-de94-11e9-a902-2c4d5443b5c3"
+        },
+        "hostPath": {
+          "path": "/u01/yangyue5/pets_data",
+          "type": ""
+        },
+        "persistentVolumeReclaimPolicy": "Retain",
+        "storageClassName": "test1-pv",
+        "volumeMode": "Filesystem"
+      },
+      "status": {
+        "phase": "Bound"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "annotations": {
+          "pv.kubernetes.io/bound-by-controller": "yes"
+        },
+        "creationTimestamp": "2019-09-18T08:42:44Z",
+        "finalizers": [
+          "kubernetes.io/pv-protection"
+        ],
+        "labels": {
+          "pv": "test2-pv"
+        },
+        "name": "test2-pv",
+        "resourceVersion": "31496125",
+        "selfLink": "/api/v1/persistentvolumes/test2-pv",
+        "uid": "48cad9a8-d9f0-11e9-9b2d-2c4d5443b5c3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteMany"
+        ],
+        "capacity": {
+          "storage": "20Gi"
+        },
+        "claimRef": {
+          "apiVersion": "v1",
+          "kind": "PersistentVolumeClaim",
+          "name": "data-pvc",
+          "namespace": "kubeflow",
+          "resourceVersion": "31496122",
+          "uid": "ab78307c-d9f0-11e9-9b2d-2c4d5443b5c3"
+        },
+        "hostPath": {
+          "path": "/u01/wangze3/data",
+          "type": ""
+        },
+        "persistentVolumeReclaimPolicy": "Retain",
+        "storageClassName": "test2-pv",
+        "volumeMode": "Filesystem"
+      },
+      "status": {
+        "phase": "Bound"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"PersistentVolume\",\"metadata\":{\"annotations\":{},\"labels\":{\"pv\":\"test3-pv\"},\"name\":\"test3-pv\"},\"spec\":{\"accessModes\":[\"ReadWriteMany\"],\"capacity\":{\"storage\":\"10Gi\"},\"hostPath\":{\"path\":\"/u01/yangyue5/mnist\"},\"storageClassName\":\"test3-pv\"}}\n",
+          "pv.kubernetes.io/bound-by-controller": "yes"
+        },
+        "creationTimestamp": "2019-09-20T03:48:19Z",
+        "finalizers": [
+          "kubernetes.io/pv-protection"
+        ],
+        "labels": {
+          "pv": "test3-pv"
+        },
+        "name": "test3-pv",
+        "resourceVersion": "31787125",
+        "selfLink": "/api/v1/persistentvolumes/test3-pv",
+        "uid": "7c21364b-db59-11e9-9b2d-2c4d5443b5c3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteMany"
+        ],
+        "capacity": {
+          "storage": "10Gi"
+        },
+        "claimRef": {
+          "apiVersion": "v1",
+          "kind": "PersistentVolumeClaim",
+          "name": "kubeflow-dist-mnist",
+          "namespace": "kubeflow",
+          "resourceVersion": "31787122",
+          "uid": "85ddaa9e-db59-11e9-9b2d-2c4d5443b5c3"
+        },
+        "hostPath": {
+          "path": "/u01/yangyue5/mnist",
+          "type": ""
+        },
+        "persistentVolumeReclaimPolicy": "Retain",
+        "storageClassName": "test3-pv",
+        "volumeMode": "Filesystem"
+      },
+      "status": {
+        "phase": "Bound"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "annotations": {
+          "pv.kubernetes.io/bound-by-controller": "yes"
+        },
+        "creationTimestamp": "2019-10-16T10:38:52Z",
+        "finalizers": [
+          "kubernetes.io/pv-protection"
+        ],
+        "labels": {
+          "pv": "tf-serving-pv"
+        },
+        "name": "tf-serving-pv",
+        "resourceVersion": "35982911",
+        "selfLink": "/api/v1/persistentvolumes/tf-serving-pv",
+        "uid": "258b6a04-f001-11e9-959a-2c4d5443b5c3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteMany"
+        ],
+        "capacity": {
+          "storage": "10Gi"
+        },
+        "claimRef": {
+          "apiVersion": "v1",
+          "kind": "PersistentVolumeClaim",
+          "name": "tf-serving-pvc",
+          "namespace": "kubeflow",
+          "resourceVersion": "35982909",
+          "uid": "27bc73b4-f001-11e9-959a-2c4d5443b5c3"
+        },
+        "hostPath": {
+          "path": "/u01/yangyue5/serving",
+          "type": ""
+        },
+        "persistentVolumeReclaimPolicy": "Retain",
+        "storageClassName": "tf-serving-pv",
+        "volumeMode": "Filesystem"
+      },
+      "status": {
+        "phase": "Bound"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": "",
+    "selfLink": ""
+  }
+}

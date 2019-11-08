@@ -1,0 +1,749 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "batch/v1",
+      "kind": "Job",
+      "metadata": {
+        "annotations": {
+          "ksonnet.io/managed": "{\"pristine\":\"H4sIAAAAAAAA/4ySQYvbQAyF7/0ZOo/jDbQXw556amlDTntZgpHHcjKbmdEwI6c1wf+9yE5Dm1LYm5in9yR/8hUwuRfKxXGEBjoUe6ovWzBwdrGHBr5yBwYCCfYoCM0VPHbki1bnwjGSbBzXlkPiSFGgAZsJhapEUmWynPvqjTuYDUQM9F99lUtCqz3nsaPB8w+1lURWx3VozzwM31xwAs1HA0IheRRS8XeT5SjoIuUCzesVMB+1gKpa1m4DpjahnJ7rwD35UmcqhNmeau7eyErbk5AVx7HW760TSXt3blInPwUMVJWKbe/ys3aUdmGj7zxKGuVRORiwHAIq0VdIk5w4goH37VBIWmH2pV7BtbqTDO3KbpMmjXcBj8ptwnicRvq0Dn/Ma7ab7dPmqTqmEW6e/ej9nr2zEzTwZdix7HWdKPB4Lxlu5wIDF/ZjoO88Rlk5By33KCdo4C8ktwx9WqDBfJgPBjIVwSz3yTu6UL4Hr5n/WA0k/VOLUJSXpfGzRxeWs2ux+8OQLhbm+TDP8/zhFwAAAP//AQAA//8asSOG5QIAAA==\"}"
+        },
+        "creationTimestamp": "2019-09-24T07:06:12Z",
+        "labels": {
+          "app.kubernetes.io/deploy-manager": "ksonnet",
+          "ksonnet.io/component": "create-pet-record-job"
+        },
+        "name": "create-pet-record-job",
+        "namespace": "kubeflow",
+        "resourceVersion": "32402190",
+        "selfLink": "/apis/batch/v1/namespaces/kubeflow/jobs/create-pet-record-job",
+        "uid": "cadd0416-de99-11e9-a902-2c4d5443b5c3"
+      },
+      "spec": {
+        "backoffLimit": 4,
+        "completions": 1,
+        "parallelism": 1,
+        "selector": {
+          "matchLabels": {
+            "controller-uid": "cadd0416-de99-11e9-a902-2c4d5443b5c3"
+          }
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "controller-uid": "cadd0416-de99-11e9-a902-2c4d5443b5c3",
+              "job-name": "create-pet-record-job"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "args": [
+                  "--label_map_path=/models/research/object_detection/data/pet_label_map.pbtxt",
+                  "--data_dir=/pets_data",
+                  "--output_dir=/pets_data"
+                ],
+                "command": [
+                  "python",
+                  "/models/research/object_detection/dataset_tools/create_pet_tf_record.py"
+                ],
+                "image": "yangyue5/pets_object_detection:1.10.0-gpu",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "create-tf-record",
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/pets_data",
+                    "name": "pets-data"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Never",
+            "schedulerName": "default-scheduler",
+            "securityContext": {},
+            "terminationGracePeriodSeconds": 30,
+            "volumes": [
+              {
+                "name": "pets-data",
+                "persistentVolumeClaim": {
+                  "claimName": "pets-pvc"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "status": {
+        "completionTime": "2019-09-24T07:06:32Z",
+        "conditions": [
+          {
+            "lastProbeTime": "2019-09-24T07:06:32Z",
+            "lastTransitionTime": "2019-09-24T07:06:32Z",
+            "status": "True",
+            "type": "Complete"
+          }
+        ],
+        "startTime": "2019-09-24T07:06:12Z",
+        "succeeded": 1
+      }
+    },
+    {
+      "apiVersion": "batch/v1",
+      "kind": "Job",
+      "metadata": {
+        "annotations": {
+          "ksonnet.io/managed": "{\"pristine\":\"H4sIAAAAAAAA/3RSwW4TQQy98xnvPJtQqeIw155AEOXUSxUh78Zph8zYqx3vFlrNvyNnoQoCbh77vefnp3kFjemep5pUENGTDU/b5QYB5yRHRHzSHgGFjY5khPiKTD3n6tW5qgjbJul20DKqsBgijuyviWvtnNN90x4tQKjwv6cdiaiRJZWKFVhHGhx9nns+ZX12gTry4Gt7Gs56On1OJRnibYBxGTMZ+/A3aFAxSsJTRXzwZynkBz3AaEJA14l2lQp3+ix86Xx/WU4I2I5s9at721752hhNm8cXx939AcIhIBV6dLdzP4vN8ebD5v0tfrX3c857zWn4gYiPp53afuLqSf0vEgQsmufCX3QWW/0XL/dkT4jXu98kvLWS26EdAiauRpO9Ld7xcjlyFV41/6IGjP4TqrHY/QV4lymVS5xe7K4I4zKgtUNrrb37CQAA//8BAAD//6UuxRRFAgAA\"}"
+        },
+        "creationTimestamp": "2019-09-24T06:48:13Z",
+        "labels": {
+          "app.kubernetes.io/deploy-manager": "ksonnet",
+          "ksonnet.io/component": "decompress-data-job"
+        },
+        "name": "decompress-data-job-annotations",
+        "namespace": "kubeflow",
+        "resourceVersion": "32400095",
+        "selfLink": "/apis/batch/v1/namespaces/kubeflow/jobs/decompress-data-job-annotations",
+        "uid": "4774d218-de97-11e9-a902-2c4d5443b5c3"
+      },
+      "spec": {
+        "backoffLimit": 4,
+        "completions": 1,
+        "parallelism": 1,
+        "selector": {
+          "matchLabels": {
+            "controller-uid": "4774d218-de97-11e9-a902-2c4d5443b5c3"
+          }
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "controller-uid": "4774d218-de97-11e9-a902-2c4d5443b5c3",
+              "job-name": "decompress-data-job-annotations"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "command": [
+                  "tar",
+                  "--no-same-owner",
+                  "-xzvf",
+                  "/pets_data/annotations.tar.gz",
+                  "-C",
+                  "/pets_data"
+                ],
+                "image": "ubuntu:16.04",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "decompress-data",
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/pets_data",
+                    "name": "pets-data"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Never",
+            "schedulerName": "default-scheduler",
+            "securityContext": {},
+            "terminationGracePeriodSeconds": 30,
+            "volumes": [
+              {
+                "name": "pets-data",
+                "persistentVolumeClaim": {
+                  "claimName": "pets-pvc"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "status": {
+        "completionTime": "2019-09-24T06:48:39Z",
+        "conditions": [
+          {
+            "lastProbeTime": "2019-09-24T06:48:39Z",
+            "lastTransitionTime": "2019-09-24T06:48:39Z",
+            "status": "True",
+            "type": "Complete"
+          }
+        ],
+        "startTime": "2019-09-24T06:48:13Z",
+        "succeeded": 1
+      }
+    },
+    {
+      "apiVersion": "batch/v1",
+      "kind": "Job",
+      "metadata": {
+        "annotations": {
+          "ksonnet.io/managed": "{\"pristine\":\"H4sIAAAAAAAA/3SST2/UMBDF73yMd3Z2qVRx8LUnEKz21Eu1QpPspDVreyJ7kkIrf3c0CVSLgNvzzO/NP/kVNIV7LjVIhkdPOjztlxs4XEI+w+OT9HBIrHQmJfhXROo5VlOXKjmz7oLsB0mTZM4KjzPbq3CtnXm6b9KjOWRK/O/sKiorNqhONBh5mXseozybuU48WMuehouM4+eQgsLfOiinKZKyJX9Dg2SlkLlU+Ad7pkS2zAOUChy6LktXKXEnz5nXyPeXZYTDfmKtX22cfUj0yHWnVHaPL4bc/ZHHyWFF4DH3c9bZ33zYvb/Fr/BxjvEoMQw/4PFxPIgeC1c70P8uAYdF4pz4i8xZt9GTySPpE/x177cSFtrM7dRODoWrUtG3xgde1v22wlvNv6wOk32Aqpz1fgXvIoW0XtLE4cowLQNaO7XW2rufAAAA//8BAAD//12GVX48AgAA\"}"
+        },
+        "creationTimestamp": "2019-09-24T06:48:13Z",
+        "labels": {
+          "app.kubernetes.io/deploy-manager": "ksonnet",
+          "ksonnet.io/component": "decompress-data-job"
+        },
+        "name": "decompress-data-job-dataset",
+        "namespace": "kubeflow",
+        "resourceVersion": "32400113",
+        "selfLink": "/apis/batch/v1/namespaces/kubeflow/jobs/decompress-data-job-dataset",
+        "uid": "47718d24-de97-11e9-a902-2c4d5443b5c3"
+      },
+      "spec": {
+        "backoffLimit": 4,
+        "completions": 1,
+        "parallelism": 1,
+        "selector": {
+          "matchLabels": {
+            "controller-uid": "47718d24-de97-11e9-a902-2c4d5443b5c3"
+          }
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "controller-uid": "47718d24-de97-11e9-a902-2c4d5443b5c3",
+              "job-name": "decompress-data-job-dataset"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "command": [
+                  "tar",
+                  "--no-same-owner",
+                  "-xzvf",
+                  "/pets_data/images.tar.gz",
+                  "-C",
+                  "/pets_data"
+                ],
+                "image": "ubuntu:16.04",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "decompress-data",
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/pets_data",
+                    "name": "pets-data"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Never",
+            "schedulerName": "default-scheduler",
+            "securityContext": {},
+            "terminationGracePeriodSeconds": 30,
+            "volumes": [
+              {
+                "name": "pets-data",
+                "persistentVolumeClaim": {
+                  "claimName": "pets-pvc"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "status": {
+        "completionTime": "2019-09-24T06:48:46Z",
+        "conditions": [
+          {
+            "lastProbeTime": "2019-09-24T06:48:46Z",
+            "lastTransitionTime": "2019-09-24T06:48:46Z",
+            "status": "True",
+            "type": "Complete"
+          }
+        ],
+        "startTime": "2019-09-24T06:48:13Z",
+        "succeeded": 1
+      }
+    },
+    {
+      "apiVersion": "batch/v1",
+      "kind": "Job",
+      "metadata": {
+        "annotations": {
+          "ksonnet.io/managed": "{\"pristine\":\"H4sIAAAAAAAA/3RSy27bMBC89zPmTNlWEBSBrjm1aA2fcgkMYUWvEtYkVyBXSpuA/17QagMXbW/7mJnlDPgGmtwDp+wkosNAap+3SwuDs4sndPgsAwwCK51ICd0bPA3sc63OWWJk3TjZWgmTRI6KDieuXeKcm8ppvsmAYhAp8L+3TZATe6yQPJGtuPM88OjlpVLzxLYeHMieZRy/uOAU3a2Bcpg8Kdflb5CVqOQip4zusbYhULXyCKUEg6aJ0mQK3MhL5Mvk++sywmA7sea+vmo7UlZOfbIx9olzZG13bW/FSn+za+/6Xdvf3G2U0ubptSrc/0HH0cAFeqo+5mGOOnftx83uFr/Gh9n7g3hnf6DDp3Evekica3r/iwkGi/g58FeZo67OQi0PpM/orm+/S9TRSi7HcjRInJWSvh/e83Kxvwqvmn9RDab6O7Jy1IcL8N6TC5ega7G/IkyLRSnHUkr58BMAAP//AQAA//+Jbnc0WQIAAA==\"}"
+        },
+        "creationTimestamp": "2019-09-24T06:48:13Z",
+        "labels": {
+          "app.kubernetes.io/deploy-manager": "ksonnet",
+          "ksonnet.io/component": "decompress-data-job"
+        },
+        "name": "decompress-data-job-model",
+        "namespace": "kubeflow",
+        "resourceVersion": "32400115",
+        "selfLink": "/apis/batch/v1/namespaces/kubeflow/jobs/decompress-data-job-model",
+        "uid": "47777a29-de97-11e9-a902-2c4d5443b5c3"
+      },
+      "spec": {
+        "backoffLimit": 4,
+        "completions": 1,
+        "parallelism": 1,
+        "selector": {
+          "matchLabels": {
+            "controller-uid": "47777a29-de97-11e9-a902-2c4d5443b5c3"
+          }
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "controller-uid": "47777a29-de97-11e9-a902-2c4d5443b5c3",
+              "job-name": "decompress-data-job-model"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "command": [
+                  "tar",
+                  "--no-same-owner",
+                  "-xzvf",
+                  "/pets_data/faster_rcnn_resnet101_coco_2018_01_28.tar.gz",
+                  "-C",
+                  "/pets_data"
+                ],
+                "image": "ubuntu:16.04",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "decompress-data",
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/pets_data",
+                    "name": "pets-data"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Never",
+            "schedulerName": "default-scheduler",
+            "securityContext": {},
+            "terminationGracePeriodSeconds": 30,
+            "volumes": [
+              {
+                "name": "pets-data",
+                "persistentVolumeClaim": {
+                  "claimName": "pets-pvc"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "status": {
+        "completionTime": "2019-09-24T06:48:46Z",
+        "conditions": [
+          {
+            "lastProbeTime": "2019-09-24T06:48:46Z",
+            "lastTransitionTime": "2019-09-24T06:48:46Z",
+            "status": "True",
+            "type": "Complete"
+          }
+        ],
+        "startTime": "2019-09-24T06:48:13Z",
+        "succeeded": 1
+      }
+    },
+    {
+      "apiVersion": "batch/v1",
+      "kind": "Job",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"batch/v1\",\"kind\":\"Job\",\"metadata\":{\"annotations\":{},\"name\":\"export-mnist-model\",\"namespace\":\"kubeflow\"},\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"args\":[\"--model_version=1\",\"--checkpoint_path=/training/tensorflow/logs/\",\"/serving/mnist\"],\"command\":[\"python\",\"/app/export_model.py\"],\"image\":\"registry.cn-hangzhou.aliyuncs.com/tensorflow-samples/export-mnist-model\",\"name\":\"tensorflow\",\"volumeMounts\":[{\"mountPath\":\"/training\",\"name\":\"kubeflow-dist-mnist\"},{\"mountPath\":\"/serving\",\"name\":\"tf-serving-pvc\"}]}],\"restartPolicy\":\"Never\",\"volumes\":[{\"name\":\"kubeflow-dist-mnist\",\"persistentVolumeClaim\":{\"claimName\":\"kubeflow-dist-mnist\"}},{\"name\":\"tf-serving-pvc\",\"persistentVolumeClaim\":{\"claimName\":\"tf-serving-pvc\"}}]}}}}\n"
+        },
+        "creationTimestamp": "2019-10-16T11:12:10Z",
+        "labels": {
+          "controller-uid": "cc707fbd-f005-11e9-959a-2c4d5443b5c3",
+          "job-name": "export-mnist-model"
+        },
+        "name": "export-mnist-model",
+        "namespace": "kubeflow",
+        "resourceVersion": "35986823",
+        "selfLink": "/apis/batch/v1/namespaces/kubeflow/jobs/export-mnist-model",
+        "uid": "cc707fbd-f005-11e9-959a-2c4d5443b5c3"
+      },
+      "spec": {
+        "backoffLimit": 6,
+        "completions": 1,
+        "parallelism": 1,
+        "selector": {
+          "matchLabels": {
+            "controller-uid": "cc707fbd-f005-11e9-959a-2c4d5443b5c3"
+          }
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "controller-uid": "cc707fbd-f005-11e9-959a-2c4d5443b5c3",
+              "job-name": "export-mnist-model"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "args": [
+                  "--model_version=1",
+                  "--checkpoint_path=/training/tensorflow/logs/",
+                  "/serving/mnist"
+                ],
+                "command": [
+                  "python",
+                  "/app/export_model.py"
+                ],
+                "image": "registry.cn-hangzhou.aliyuncs.com/tensorflow-samples/export-mnist-model",
+                "imagePullPolicy": "Always",
+                "name": "tensorflow",
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/training",
+                    "name": "kubeflow-dist-mnist"
+                  },
+                  {
+                    "mountPath": "/serving",
+                    "name": "tf-serving-pvc"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Never",
+            "schedulerName": "default-scheduler",
+            "securityContext": {},
+            "terminationGracePeriodSeconds": 30,
+            "volumes": [
+              {
+                "name": "kubeflow-dist-mnist",
+                "persistentVolumeClaim": {
+                  "claimName": "kubeflow-dist-mnist"
+                }
+              },
+              {
+                "name": "tf-serving-pvc",
+                "persistentVolumeClaim": {
+                  "claimName": "tf-serving-pvc"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "status": {
+        "completionTime": "2019-10-16T11:12:20Z",
+        "conditions": [
+          {
+            "lastProbeTime": "2019-10-16T11:12:20Z",
+            "lastTransitionTime": "2019-10-16T11:12:20Z",
+            "status": "True",
+            "type": "Complete"
+          }
+        ],
+        "startTime": "2019-10-16T11:12:10Z",
+        "succeeded": 1
+      }
+    },
+    {
+      "apiVersion": "batch/v1",
+      "kind": "Job",
+      "metadata": {
+        "annotations": {
+          "ksonnet.io/managed": "{\"pristine\":\"H4sIAAAAAAAA/3SST2/bPAzG7+/H4NmO3+wPMBjoaacNW5FTL0UgyDIdq5ZIQqKzBoG/+yC7a4MOuxHi8/weidQVrPgHTNkzQQudVTc25z1UMHnqoYXv3EEFEdX2Vi20Vwi2w5BLNWUmQt15bhxHYUJSaAGfhZPWOtSnZGWsn7j7DEsFZCP+q711s1hXJNPc4RD4V3FlQVfCOusmHoYfPnqF9lMFilGCVSzNPyLHpNYTpgzt4xVsOpUC6tqTzGr0Injnoz2hUaTMCSqoa/GCwRMaxzT4kxGr410jqNmUNzeDzYrJJEdkEmZC3f+/N6W/2xwrRVMJ7o0b0U3CntRIwsE/36JWkXEyN5F7DDs3idb7Lx/3H1YGz1qu2fuETjldbq3b2LA369QyHCtwHKMtW3oEuejIBBVs4NwkzGiTGxvuntCp6VHRqWd6ARlPAyYkhxtwJ5eCXIcDLQRXHh3CdoH3DHgRHuYQDhy8u0AL34Z71kPJJYX3214zoIIzhzniT55JtxXFUh6sjtDC22vf/OWoXo+W43KsIGFWm/Q19R7PmF7BG/MvawVSvnhWJH1YhV+D9XH9MaW4vzHI2cGyHJdlWf77DQAA//8BAAD//1aEtDweAwAA\"}"
+        },
+        "creationTimestamp": "2019-09-27T07:39:45Z",
+        "labels": {
+          "app.kubernetes.io/deploy-manager": "ksonnet",
+          "ksonnet.io/component": "export-tf-graph-job5"
+        },
+        "name": "export-tf-graph-job5",
+        "namespace": "kubeflow",
+        "resourceVersion": "32893686",
+        "selfLink": "/apis/batch/v1/namespaces/kubeflow/jobs/export-tf-graph-job5",
+        "uid": "fa2598e2-e0f9-11e9-a902-2c4d5443b5c3"
+      },
+      "spec": {
+        "backoffLimit": 4,
+        "completions": 1,
+        "parallelism": 1,
+        "selector": {
+          "matchLabels": {
+            "controller-uid": "fa2598e2-e0f9-11e9-a902-2c4d5443b5c3"
+          }
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "controller-uid": "fa2598e2-e0f9-11e9-a902-2c4d5443b5c3",
+              "job-name": "export-tf-graph-job5"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "args": [
+                  "--input_type=image_tensor",
+                  "--pipeline_config_path=/pets_data/faster_rcnn_resnet101_pets.config",
+                  "--trained_checkpoint_prefix=/pets_data/train_cpu/model.ckpt-18312",
+                  "--output_directory=/pets_data/exported_graphs"
+                ],
+                "command": [
+                  "python",
+                  "/models/research/object_detection/export_inference_graph.py"
+                ],
+                "image": "lcastell/pets_object_detection",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "export-graph",
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/pets_data",
+                    "name": "pets-data"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Never",
+            "schedulerName": "default-scheduler",
+            "securityContext": {},
+            "terminationGracePeriodSeconds": 30,
+            "volumes": [
+              {
+                "name": "pets-data",
+                "persistentVolumeClaim": {
+                  "claimName": "pets-pvc"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "status": {
+        "completionTime": "2019-09-27T07:40:37Z",
+        "conditions": [
+          {
+            "lastProbeTime": "2019-09-27T07:40:37Z",
+            "lastTransitionTime": "2019-09-27T07:40:37Z",
+            "status": "True",
+            "type": "Complete"
+          }
+        ],
+        "startTime": "2019-09-27T07:39:45Z",
+        "succeeded": 1
+      }
+    },
+    {
+      "apiVersion": "batch/v1",
+      "kind": "Job",
+      "metadata": {
+        "annotations": {
+          "ksonnet.io/managed": "{\"pristine\":\"H4sIAAAAAAAA/2RSsY7bMAzd+xmc5agBOnnt1KINPN1yCAxaoW2dJVGQ6KTFwf9e0LkL2t5GP75HPj7rFTD7JyrVc4IWBhQ32+sRDCw+XaCF7zyAgUiCFxSE9hUCDhSqVkvllEgOnq3jmDlREmhhImmU3LzwAJuBhJH+gxvHafQT3Js1o1PGsg40Br6pqGZyumNAt/A4/vDRC7RfDAjFHFBIm+8kx0nQJyoV2mf9jBHV/TPcJhIwMIvk2lpb8HaYvMzrsFYqKqMkB8fRvu+29AtjDlRtxCpULA8v5KS/kJATz8mqdTvuzb64lPpCNZEcPx/7TFIPj9OaDgxYxfo9OwNNk7hxM7mlcVTEj97pJWcDPuKkEfi0Cia2b753uFtD6Dh49xta+DaeWLpCVbP+kC0YuHJYI/3kNck9jahlhzJD+6+bN61Cd/F23s4GClXBIo+NJ7pSeQy+z/wgNZD1EVXN82knfg3o4/5ztDj9JchXB9t23rZt+/QHAAD//wEAAP//ewXknIACAAA=\"}"
+        },
+        "creationTimestamp": "2019-09-24T06:29:19Z",
+        "labels": {
+          "app.kubernetes.io/deploy-manager": "ksonnet",
+          "ksonnet.io/component": "get-data-job"
+        },
+        "name": "get-data-job-config",
+        "namespace": "kubeflow",
+        "resourceVersion": "32397885",
+        "selfLink": "/apis/batch/v1/namespaces/kubeflow/jobs/get-data-job-config",
+        "uid": "a3c0ca20-de94-11e9-a902-2c4d5443b5c3"
+      },
+      "spec": {
+        "backoffLimit": 4,
+        "completions": 1,
+        "parallelism": 1,
+        "selector": {
+          "matchLabels": {
+            "controller-uid": "a3c0ca20-de94-11e9-a902-2c4d5443b5c3"
+          }
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "controller-uid": "a3c0ca20-de94-11e9-a902-2c4d5443b5c3",
+              "job-name": "get-data-job-config"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "command": [
+                  "wget",
+                  "https://raw.githubusercontent.com/kubeflow/examples/master/object_detection/conf/faster_rcnn_resnet101_pets.config",
+                  "-P",
+                  "/pets_data",
+                  "--no-check-certificate"
+                ],
+                "image": "inutano/wget",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "get-data",
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/pets_data",
+                    "name": "pets-data"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Never",
+            "schedulerName": "default-scheduler",
+            "securityContext": {},
+            "terminationGracePeriodSeconds": 30,
+            "volumes": [
+              {
+                "name": "pets-data",
+                "persistentVolumeClaim": {
+                  "claimName": "pets-pvc"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "status": {
+        "completionTime": "2019-09-24T06:29:25Z",
+        "conditions": [
+          {
+            "lastProbeTime": "2019-09-24T06:29:25Z",
+            "lastTransitionTime": "2019-09-24T06:29:25Z",
+            "status": "True",
+            "type": "Complete"
+          }
+        ],
+        "startTime": "2019-09-24T06:29:19Z",
+        "succeeded": 1
+      }
+    },
+    {
+      "apiVersion": "batch/v1",
+      "kind": "Job",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"batch/v1\",\"kind\":\"Job\",\"metadata\":{\"annotations\":{},\"name\":\"multi-gpu-cifar10\",\"namespace\":\"kubeflow\"},\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"args\":[\"--data-dir=/home/cifar-10-data\",\"--job-dir=/tmp/cifar10\",\"--num-gpus=2\",\"--train-steps=2000\"],\"command\":[\"python\",\"/home/cifar10_main.py\"],\"image\":\"yangyue5/multi-gpu:cifar10\",\"imagePullPolicy\":\"Never\",\"name\":\"tensorflow\",\"resources\":{\"limits\":{\"nvidia.com/gpu\":1}},\"volumeMounts\":[{\"mountPath\":\"/tmp\",\"name\":\"kubeflow-dist-mnist\"}]}],\"restartPolicy\":\"Never\",\"volumes\":[{\"name\":\"kubeflow-dist-mnist\",\"persistentVolumeClaim\":{\"claimName\":\"kubeflow-dist-mnist\"}}]}}}}\n"
+        },
+        "creationTimestamp": "2019-10-27T10:14:36Z",
+        "labels": {
+          "controller-uid": "9409b3c8-f8a2-11e9-959a-2c4d5443b5c3",
+          "job-name": "multi-gpu-cifar10"
+        },
+        "name": "multi-gpu-cifar10",
+        "namespace": "kubeflow",
+        "resourceVersion": "37760868",
+        "selfLink": "/apis/batch/v1/namespaces/kubeflow/jobs/multi-gpu-cifar10",
+        "uid": "9409b3c8-f8a2-11e9-959a-2c4d5443b5c3"
+      },
+      "spec": {
+        "backoffLimit": 6,
+        "completions": 1,
+        "parallelism": 1,
+        "selector": {
+          "matchLabels": {
+            "controller-uid": "9409b3c8-f8a2-11e9-959a-2c4d5443b5c3"
+          }
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "controller-uid": "9409b3c8-f8a2-11e9-959a-2c4d5443b5c3",
+              "job-name": "multi-gpu-cifar10"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "args": [
+                  "--data-dir=/home/cifar-10-data",
+                  "--job-dir=/tmp/cifar10",
+                  "--num-gpus=2",
+                  "--train-steps=2000"
+                ],
+                "command": [
+                  "python",
+                  "/home/cifar10_main.py"
+                ],
+                "image": "yangyue5/multi-gpu:cifar10",
+                "imagePullPolicy": "Never",
+                "name": "tensorflow",
+                "resources": {
+                  "limits": {
+                    "nvidia.com/gpu": "1"
+                  }
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/tmp",
+                    "name": "kubeflow-dist-mnist"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Never",
+            "schedulerName": "default-scheduler",
+            "securityContext": {},
+            "terminationGracePeriodSeconds": 30,
+            "volumes": [
+              {
+                "name": "kubeflow-dist-mnist",
+                "persistentVolumeClaim": {
+                  "claimName": "kubeflow-dist-mnist"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "status": {
+        "completionTime": "2019-10-27T10:16:50Z",
+        "conditions": [
+          {
+            "lastProbeTime": "2019-10-27T10:16:50Z",
+            "lastTransitionTime": "2019-10-27T10:16:50Z",
+            "status": "True",
+            "type": "Complete"
+          }
+        ],
+        "startTime": "2019-10-27T10:14:36Z",
+        "succeeded": 1
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": "",
+    "selfLink": ""
+  }
+}

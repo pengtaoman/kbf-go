@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{pvname}}
+  namespace: kubeflow
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{storage}}
+  storageClassName: {{storageClassName}}
+  selector:
+    matchLabels:
+      pv: {{matchLabels}}

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/kbf.css">
+</head>
+<body>
+<div id="app">
+    <el-header style="text-align: right; font-size: 12px">
+        <el-button @click="openDia">Create PV/PVC</el-button>
+
+        <el-dialog :visible.sync="visible" style="text-align: left; font-size: 9px; width:100%;"
+                   title="添加PV/PVC"
+                   :show-close=false
+                   :close-on-click-modal=false>
+            <el-form ref="form" :model="form" label-width="160px" :rules="rules">
+                <el-form-item label="pv/pvc name" prop="pvname">
+                    <el-input v-model="form.pvname"></el-input>
+                </el-form-item>
+                <el-form-item label="Kind" prop="kind">
+                    <el-radio v-model="form.kind" label="1">PersistentVolume</el-radio>
+                    <el-radio v-model="form.kind" label="2">PersistentVolumeClaim</el-radio>
+                </el-form-item>
+                <el-form-item label="Labels" prop="labels">
+                    <el-input v-model="form.labels"></el-input>
+                </el-form-item>
+                <el-form-item label="Storage" prop="storage">
+                    <el-input v-model="form.storage"></el-input>
+                </el-form-item>
+                <el-form-item label="storageClassName" prop="storageClassName">
+                    <el-input v-model="form.storageClassName"></el-input>
+                </el-form-item>
+                <el-form-item label="hostPath" v-if="form.kind==='1'" prop="hostPath">
+                    <el-input v-model="form.hostPath"></el-input>
+                </el-form-item>
+                <el-form-item label="MatchLabels" v-if="form.kind==='2'" prop="matchLabels">
+                    <el-input v-model="form.matchLabels"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button  @click="visible = false">关闭</el-button>
+                <el-button  @click="createPV" type="primary">添加</el-button>
+            </div>
+        </el-dialog>
+    </el-header>
+    <el-container style="height:100%; border: 1px solid #eee">
+        <el-aside width="200px">
+            <el-menu :default-openeds="['2']" default-active="2-1">
+                <el-submenu index="2">
+                    <template slot="title"><i class="el-icon-menu"></i>KBF</template>
+                    <el-menu-item-group>
+                        <el-menu-item index="2-1" @click="clickPV">PV/PVC</el-menu-item>
+                        <el-menu-item index="2-2" @click="clickTFJ">TFJob</el-menu-item>
+                        <el-menu-item index="2-3" @click="clickMod">模型预测</el-menu-item>
+                        <el-menu-item index="2-4" @click="clickSig">单机训练</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+            </el-menu>
+        </el-aside>
+
+        <el-container style="height:100%; border: 1px solid #eee" direction="vertical">
+            <el-main>
+                <el-table :data="tableData">
+                    <el-table-column prop="name" label="名称" width="140">
+                    </el-table-column>
+                    <el-table-column prop="capacity" label="容量" width="120">
+                    </el-table-column>
+                    <el-table-column prop="accessMode" label="Access MODES">
+                    </el-table-column>
+                    <el-table-column prop="status" label="状态">
+                    </el-table-column>
+                    <el-table-column prop="claim" label="CLAIM" width="140">
+                    </el-table-column>
+                    <el-table-column prop="storageClass" label="storageClass" width="140">
+                    </el-table-column>
+                    <el-table-column prop="creationTimestamp" label="创建时间">
+                    </el-table-column>
+                </el-table>
+            </el-main>
+        </el-container>
+    </el-container>
+
+</div>
+
+
+<script src="js/vue.min.js"></script>
+<script src="js/elementui/index.js"></script>
+<script src="js/axios.min.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                visible: false,
+                form:{
+                    pvname:'',
+                    kind:'1',
+                    labels:'',
+                    storage:'',
+                    storageClassName:'',
+                    hostPath:'',
+                    matchLabels:''
+                },
+                tableData: [],
+                rules: {
+                    pvname: [
+                        { required: true, message: '请输入PV/PVC名称', trigger: 'blur' }
+                    ]
+                }
+            }
+        },
+        methods:{
+            clickTFJ: function(){
+              location.href="/html/tfj.html"
+            },
+            clickPV: function(){
+                location.href="/html"
+            },
+            clickMod: function(){
+                location.href="/html/predict.html"
+            },
+            clickSig: function(){
+                location.href="/html/single.html"
+            },
+            openDia: function() {
+                this.visible = true
+                if(this.$refs["form"]) this.$refs["form"].resetFields()
+            },
+            getPVs: function() {
+                let _self = this
+                //production
+                axios.get('/get-pv-pro').then(function(response) {
+                    let pvRows = []
+                    if (response.status === 200) {
+                        let jsonObj = JSON.parse(response.data.message)
+                        console.log("########### getPV data #################")
+                        console.log(jsonObj)
+
+                        jsonObj.items.forEach((item) => {
+                            let pvRow = {
+                                name:item.metadata.name,
+                                capacity:item.spec.capacity.storage,
+                                accessMode:item.spec.accessModes.join(" "),
+                                status:item.status.phase,
+                                claim:item.spec.claimRef?item.spec.claimRef.namespace + "/" + item.spec.claimRef.name:"",
+                                storageClass:item.spec.storageClassName,
+                                creationTimestamp:item.metadata.creationTimestamp,
+                            }
+                            pvRows.push(pvRow)
+                        })
+                        _self.tableData = pvRows
+                    }
+                }).catch(function (error) { // 请求失败处理
+                    console.log(error);
+                });
+            },
+            createPV: function() {
+                let _self = this
+                this.$refs["form"].validate((valid) => {
+                    if (valid) {
+                        let postData = _self.form
+                        postData.kindStr=_self.form.kind=="1"?"PersistentVolume":"PersistentVolumeClaim"
+                        axios.post('/create-pv', postData).then(function (response) {
+                            if (response.status === 200) {
+                                const h = _self.$createElement;
+                                _self.$notify({
+                                    title: '操作提示',
+                                    message: h('i', { style: 'color: teal'}, '创建PV/PVC yaml文件成功。')
+                                });
+                                _self.visible = false
+
+                                axios.get('/exec-pv/'+_self.form.pvname).then(function(response) {
+                                    console.log(response)
+                                    if (response.status === 200) {
+                                        const h = _self.$createElement;
+                                        _self.$notify({
+                                            title: '操作提示',
+                                            message: h('i', { style: 'color: teal'}, '创建PV/PVC成功。')
+                                        });
+                                        _self.getPVs()
+                                    } else {
+                                        const h = _self.$createElement;
+                                        _self.$notify({
+                                            title: '操作提示',
+                                            message: h('i', { style: 'color: teal'}, '创建PV/PVC失败:'+response.message)
+                                        });
+                                    }
+                                })
+
+                            } else {
+                                const h = _self.$createElement;
+                                _self.$notify({
+                                    title: '操作提示',
+                                    message: h('i', { style: 'color: teal'}, '创建PV/PVC yaml文件失败:'+response.status)
+                                });
+                            }
+                            console.log("########### create PV/PVC #################")
+                            console.log(response);
+                        })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+
+            }
+        },
+        mounted: function() {
+            let _self = this
+            _self.getPVs()
+        }
+    })
+</script>
+</body>
+</html>

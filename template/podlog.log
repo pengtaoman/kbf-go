@@ -1,0 +1,221 @@
+/usr/local/lib/python2.7/dist-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+INFO:tensorflow:TF_CONFIG {"cluster":{"chief":["mnist-train-local-chief-0.kubeflow.svc:2222"],"ps":["mnist-train-local-ps-0.kubeflow.svc:2222"],"worker":["mnist-train-local-worker-0.kubeflow.svc:2222"]},"task":{"type":"chief","index":0},"environment":"cloud"}
+INFO:tensorflow:cluster={u'ps': [u'mnist-train-local-ps-0.kubeflow.svc:2222'], u'chief': [u'mnist-train-local-chief-0.kubeflow.svc:2222'], u'worker': [u'mnist-train-local-worker-0.kubeflow.svc:2222']} job_name=chief task_index=0
+INFO:tensorflow:Will export model
+WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/learn/python/learn/datasets/base.py:198: retry (from tensorflow.contrib.learn.python.learn.datasets.base) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use the retry module or similar alternatives.
+WARNING:tensorflow:From /opt/model.py:174: load_mnist (from tensorflow.contrib.learn.python.learn.datasets.mnist) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use alternatives such as official/mnist/dataset.py from tensorflow/models.
+WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/learn/python/learn/datasets/mnist.py:300: read_data_sets (from tensorflow.contrib.learn.python.learn.datasets.mnist) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use alternatives such as official/mnist/dataset.py from tensorflow/models.
+WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/learn/python/learn/datasets/mnist.py:260: maybe_download (from tensorflow.contrib.learn.python.learn.datasets.base) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please write your own downloading logic.
+WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/learn/python/learn/datasets/base.py:219: wrapped_fn (from tensorflow.contrib.learn.python.learn.datasets.base) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use urllib or similar directly.
+WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/learn/python/learn/datasets/mnist.py:262: extract_images (from tensorflow.contrib.learn.python.learn.datasets.mnist) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use tf.data to implement this functionality.
+WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/learn/python/learn/datasets/mnist.py:267: extract_labels (from tensorflow.contrib.learn.python.learn.datasets.mnist) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use tf.data to implement this functionality.
+WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/learn/python/learn/datasets/mnist.py:290: __init__ (from tensorflow.contrib.learn.python.learn.datasets.mnist) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use alternatives such as official/mnist/dataset.py from tensorflow/models.
+INFO:tensorflow:TF_CONFIG environment variable: {u'environment': u'cloud', u'cluster': {u'ps': [u'mnist-train-local-ps-0.kubeflow.svc:2222'], u'chief': [u'mnist-train-local-chief-0.kubeflow.svc:2222'], u'worker': [u'mnist-train-local-worker-0.kubeflow.svc:2222']}, u'task': {u'index': 0, u'type': u'chief'}}
+INFO:tensorflow:Using config: {'_save_checkpoints_secs': None, '_session_config': None, '_keep_checkpoint_max': 5, '_tf_random_seed': None, '_task_type': u'chief', '_global_id_in_cluster': 0, '_is_chief': True, '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7f3ffc585f50>, '_model_dir': '/mnist', '_num_worker_replicas': 2, '_task_id': 0, '_log_step_count_steps': 100, '_master': u'grpc://mnist-train-local-chief-0.kubeflow.svc:2222', '_save_checkpoints_steps': 1000, '_keep_checkpoint_every_n_hours': 10000, '_evaluation_master': '', '_service': None, '_save_summary_steps': 100, '_num_ps_replicas': 1}
+INFO:tensorflow:Start Tensorflow server.
+2019-10-23 03:52:21.213358: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2019-10-23 03:52:21.479111: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1344] Found device 0 with properties:
+name: GeForce GTX 1080 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.6325
+pciBusID: 0000:05:00.0
+totalMemory: 10.91GiB freeMemory: 10.74GiB
+2019-10-23 03:52:21.479189: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1423] Adding visible gpu devices: 0
+2019-10-23 03:55:42.782411: I tensorflow/core/common_runtime/gpu/gpu_device.cc:911] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-10-23 03:55:42.782484: I tensorflow/core/common_runtime/gpu/gpu_device.cc:917]      0
+2019-10-23 03:55:42.782498: I tensorflow/core/common_runtime/gpu/gpu_device.cc:930] 0:   N
+2019-10-23 03:55:42.782954: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1041] Created TensorFlow device (/job:chief/replica:0/task:0/device:GPU:0 with 10397 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:05:00.0, compute capability: 6.1)
+2019-10-23 03:55:42.999132: I tensorflow/core/distributed_runtime/rpc/grpc_channel.cc:215] Initialize GrpcChannelCache for job chief -> {0 -> localhost:2222}
+2019-10-23 03:55:42.999200: I tensorflow/core/distributed_runtime/rpc/grpc_channel.cc:215] Initialize GrpcChannelCache for job ps -> {0 -> mnist-train-local-ps-0.kubeflow.svc:2222}
+2019-10-23 03:55:42.999214: I tensorflow/core/distributed_runtime/rpc/grpc_channel.cc:215] Initialize GrpcChannelCache for job worker -> {0 -> mnist-train-local-worker-0.kubeflow.svc:2222}
+2019-10-23 03:55:43.002925: I tensorflow/core/distributed_runtime/rpc/grpc_server_lib.cc:333] Started server with target: grpc://localhost:2222
+INFO:tensorflow:Calling model_fn.
+INFO:tensorflow:Done calling model_fn.
+INFO:tensorflow:Create CheckpointSaverHook.
+INFO:tensorflow:Graph was finalized.
+INFO:tensorflow:Restoring parameters from /mnist/model.ckpt-202
+2019-10-23 03:55:45.674532: I tensorflow/core/distributed_runtime/master_session.cc:1024] Start master session 52eb289774c97efb with config: allow_soft_placement: true
+INFO:tensorflow:Running local_init_op.
+INFO:tensorflow:Done running local_init_op.
+INFO:tensorflow:Saving checkpoints for 204 into /mnist/model.ckpt.
+INFO:tensorflow:loss = 0.7577399, step = 202
+INFO:tensorflow:global_step/sec: 35.2266
+INFO:tensorflow:global_step/sec: 35.9037
+INFO:tensorflow:loss = 0.53329897, step = 412 (5.940 sec)
+INFO:tensorflow:global_step/sec: 36.616
+INFO:tensorflow:global_step/sec: 37.3073
+INFO:tensorflow:loss = 0.7574031, step = 616 (5.453 sec)
+INFO:tensorflow:global_step/sec: 37.4658
+INFO:tensorflow:global_step/sec: 37.4626
+INFO:tensorflow:loss = 0.53608435, step = 821 (5.472 sec)
+INFO:tensorflow:global_step/sec: 37.6082
+INFO:tensorflow:global_step/sec: 37.2946
+INFO:tensorflow:loss = 0.53432834, step = 1024 (5.438 sec)
+INFO:tensorflow:global_step/sec: 37.222
+INFO:tensorflow:Saving checkpoints for 1205 into /mnist/model.ckpt.
+INFO:tensorflow:global_step/sec: 36.8665
+INFO:tensorflow:loss = 0.5336602, step = 1229 (5.544 sec)
+INFO:tensorflow:global_step/sec: 37.6601
+INFO:tensorflow:global_step/sec: 37.3636
+INFO:tensorflow:loss = 0.5568569, step = 1433 (5.430 sec)
+INFO:tensorflow:global_step/sec: 36.6459
+INFO:tensorflow:global_step/sec: 37.0662
+INFO:tensorflow:loss = 0.3774388, step = 1636 (5.508 sec)
+INFO:tensorflow:global_step/sec: 37.7549
+INFO:tensorflow:global_step/sec: 36.9843
+INFO:tensorflow:loss = 0.51648164, step = 1839 (5.408 sec)
+INFO:tensorflow:global_step/sec: 37.8031
+INFO:tensorflow:Saving checkpoints for 2002 into /mnist/model.ckpt.
+INFO:tensorflow:Loss for final step: 0.57369477.
+INFO:tensorflow:Calling model_fn.
+INFO:tensorflow:Done calling model_fn.
+INFO:tensorflow:Signatures INCLUDED in export for Classify: None
+INFO:tensorflow:Signatures INCLUDED in export for Regress: None
+INFO:tensorflow:Signatures INCLUDED in export for Predict: ['serving_default', 'classes']
+2019-10-23 03:56:47.086416: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1423] Adding visible gpu devices: 0
+2019-10-23 03:56:47.086507: I tensorflow/core/common_runtime/gpu/gpu_device.cc:911] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-10-23 03:56:47.086527: I tensorflow/core/common_runtime/gpu/gpu_device.cc:917]      0
+2019-10-23 03:56:47.086538: I tensorflow/core/common_runtime/gpu/gpu_device.cc:930] 0:   N
+2019-10-23 03:56:47.086772: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1041] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10397 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:05:00.0, compute capability: 6.1)
+INFO:tensorflow:Restoring parameters from /mnist/model.ckpt-2002
+INFO:tensorflow:Assets added to graph.
+INFO:tensorflow:No assets to write.
+INFO:tensorflow:SavedModel written to: /mnist/export/temp-1571803007/saved_model.pb
+Successfully downloaded train-images-idx3-ubyte.gz 9912422 bytes.
+Extracting /tmp/data/train-images-idx3-ubyte.gz
+Successfully downloaded train-labels-idx1-ubyte.gz 28881 bytes.
+Extracting /tmp/data/train-labels-idx1-ubyte.gz
+Successfully downloaded t10k-images-idx3-ubyte.gz 1648877 bytes.
+Extracting /tmp/data/t10k-images-idx3-ubyte.gz
+Successfully downloaded t10k-labels-idx1-ubyte.gz 4542 bytes.
+Extracting /tmp/data/t10k-labels-idx1-ubyte.gz
+Train and evaluate
+Training done
+Export saved model
+Done exporting the model
+yangyue5@junnan-gpu:~/examples/mnist/training/base$ kubectl logs mnist-train-local-chief-0
+/usr/local/lib/python2.7/dist-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+INFO:tensorflow:TF_CONFIG {"cluster":{"chief":["mnist-train-local-chief-0.kubeflow.svc:2222"],"ps":["mnist-train-local-ps-0.kubeflow.svc:2222"],"worker":["mnist-train-local-worker-0.kubeflow.svc:2222"]},"task":{"type":"chief","index":0},"environment":"cloud"}
+INFO:tensorflow:cluster={u'ps': [u'mnist-train-local-ps-0.kubeflow.svc:2222'], u'chief': [u'mnist-train-local-chief-0.kubeflow.svc:2222'], u'worker': [u'mnist-train-local-worker-0.kubeflow.svc:2222']} job_name=chief task_index=0
+INFO:tensorflow:Will export model
+WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/learn/python/learn/datasets/base.py:198: retry (from tensorflow.contrib.learn.python.learn.datasets.base) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use the retry module or similar alternatives.
+WARNING:tensorflow:From /opt/model.py:174: load_mnist (from tensorflow.contrib.learn.python.learn.datasets.mnist) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use alternatives such as official/mnist/dataset.py from tensorflow/models.
+WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/learn/python/learn/datasets/mnist.py:300: read_data_sets (from tensorflow.contrib.learn.python.learn.datasets.mnist) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use alternatives such as official/mnist/dataset.py from tensorflow/models.
+WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/learn/python/learn/datasets/mnist.py:260: maybe_download (from tensorflow.contrib.learn.python.learn.datasets.base) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please write your own downloading logic.
+WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/learn/python/learn/datasets/base.py:219: wrapped_fn (from tensorflow.contrib.learn.python.learn.datasets.base) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use urllib or similar directly.
+WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/learn/python/learn/datasets/mnist.py:262: extract_images (from tensorflow.contrib.learn.python.learn.datasets.mnist) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use tf.data to implement this functionality.
+WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/learn/python/learn/datasets/mnist.py:267: extract_labels (from tensorflow.contrib.learn.python.learn.datasets.mnist) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use tf.data to implement this functionality.
+WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/learn/python/learn/datasets/mnist.py:290: __init__ (from tensorflow.contrib.learn.python.learn.datasets.mnist) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use alternatives such as official/mnist/dataset.py from tensorflow/models.
+INFO:tensorflow:TF_CONFIG environment variable: {u'environment': u'cloud', u'cluster': {u'ps': [u'mnist-train-local-ps-0.kubeflow.svc:2222'], u'chief': [u'mnist-train-local-chief-0.kubeflow.svc:2222'], u'worker': [u'mnist-train-local-worker-0.kubeflow.svc:2222']}, u'task': {u'index': 0, u'type': u'chief'}}
+INFO:tensorflow:Using config: {'_save_checkpoints_secs': None, '_session_config': None, '_keep_checkpoint_max': 5, '_tf_random_seed': None, '_task_type': u'chief', '_global_id_in_cluster': 0, '_is_chief': True, '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7f3ffc585f50>, '_model_dir': '/mnist', '_num_worker_replicas': 2, '_task_id': 0, '_log_step_count_steps': 100, '_master': u'grpc://mnist-train-local-chief-0.kubeflow.svc:2222', '_save_checkpoints_steps': 1000, '_keep_checkpoint_every_n_hours': 10000, '_evaluation_master': '', '_service': None, '_save_summary_steps': 100, '_num_ps_replicas': 1}
+INFO:tensorflow:Start Tensorflow server.
+2019-10-23 03:52:21.213358: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2019-10-23 03:52:21.479111: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1344] Found device 0 with properties:
+name: GeForce GTX 1080 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.6325
+pciBusID: 0000:05:00.0
+totalMemory: 10.91GiB freeMemory: 10.74GiB
+2019-10-23 03:52:21.479189: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1423] Adding visible gpu devices: 0
+2019-10-23 03:55:42.782411: I tensorflow/core/common_runtime/gpu/gpu_device.cc:911] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-10-23 03:55:42.782484: I tensorflow/core/common_runtime/gpu/gpu_device.cc:917]      0
+2019-10-23 03:55:42.782498: I tensorflow/core/common_runtime/gpu/gpu_device.cc:930] 0:   N
+2019-10-23 03:55:42.782954: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1041] Created TensorFlow device (/job:chief/replica:0/task:0/device:GPU:0 with 10397 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:05:00.0, compute capability: 6.1)
+2019-10-23 03:55:42.999132: I tensorflow/core/distributed_runtime/rpc/grpc_channel.cc:215] Initialize GrpcChannelCache for job chief -> {0 -> localhost:2222}
+2019-10-23 03:55:42.999200: I tensorflow/core/distributed_runtime/rpc/grpc_channel.cc:215] Initialize GrpcChannelCache for job ps -> {0 -> mnist-train-local-ps-0.kubeflow.svc:2222}
+2019-10-23 03:55:42.999214: I tensorflow/core/distributed_runtime/rpc/grpc_channel.cc:215] Initialize GrpcChannelCache for job worker -> {0 -> mnist-train-local-worker-0.kubeflow.svc:2222}
+2019-10-23 03:55:43.002925: I tensorflow/core/distributed_runtime/rpc/grpc_server_lib.cc:333] Started server with target: grpc://localhost:2222
+INFO:tensorflow:Calling model_fn.
+INFO:tensorflow:Done calling model_fn.
+INFO:tensorflow:Create CheckpointSaverHook.
+INFO:tensorflow:Graph was finalized.
+INFO:tensorflow:Restoring parameters from /mnist/model.ckpt-202
+2019-10-23 03:55:45.674532: I tensorflow/core/distributed_runtime/master_session.cc:1024] Start master session 52eb289774c97efb with config: allow_soft_placement: true
+INFO:tensorflow:Running local_init_op.
+INFO:tensorflow:Done running local_init_op.
+INFO:tensorflow:Saving checkpoints for 204 into /mnist/model.ckpt.
+INFO:tensorflow:loss = 0.7577399, step = 202
+INFO:tensorflow:global_step/sec: 35.2266
+INFO:tensorflow:global_step/sec: 35.9037
+INFO:tensorflow:loss = 0.53329897, step = 412 (5.940 sec)
+INFO:tensorflow:global_step/sec: 36.616
+INFO:tensorflow:global_step/sec: 37.3073
+INFO:tensorflow:loss = 0.7574031, step = 616 (5.453 sec)
+INFO:tensorflow:global_step/sec: 37.4658
+INFO:tensorflow:global_step/sec: 37.4626
+INFO:tensorflow:loss = 0.53608435, step = 821 (5.472 sec)
+INFO:tensorflow:global_step/sec: 37.6082
+INFO:tensorflow:global_step/sec: 37.2946
+INFO:tensorflow:loss = 0.53432834, step = 1024 (5.438 sec)
+INFO:tensorflow:global_step/sec: 37.222
+INFO:tensorflow:Saving checkpoints for 1205 into /mnist/model.ckpt.
+INFO:tensorflow:global_step/sec: 36.8665
+INFO:tensorflow:loss = 0.5336602, step = 1229 (5.544 sec)
+INFO:tensorflow:global_step/sec: 37.6601
+INFO:tensorflow:global_step/sec: 37.3636
+INFO:tensorflow:loss = 0.5568569, step = 1433 (5.430 sec)
+INFO:tensorflow:global_step/sec: 36.6459
+INFO:tensorflow:global_step/sec: 37.0662
+INFO:tensorflow:loss = 0.3774388, step = 1636 (5.508 sec)
+INFO:tensorflow:global_step/sec: 37.7549
+INFO:tensorflow:global_step/sec: 36.9843
+INFO:tensorflow:loss = 0.51648164, step = 1839 (5.408 sec)
+INFO:tensorflow:global_step/sec: 37.8031
+INFO:tensorflow:Saving checkpoints for 2002 into /mnist/model.ckpt.
+INFO:tensorflow:Loss for final step: 0.57369477.
+INFO:tensorflow:Calling model_fn.
+INFO:tensorflow:Done calling model_fn.
+INFO:tensorflow:Signatures INCLUDED in export for Classify: None
+INFO:tensorflow:Signatures INCLUDED in export for Regress: None
+INFO:tensorflow:Signatures INCLUDED in export for Predict: ['serving_default', 'classes']
+2019-10-23 03:56:47.086416: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1423] Adding visible gpu devices: 0
+2019-10-23 03:56:47.086507: I tensorflow/core/common_runtime/gpu/gpu_device.cc:911] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-10-23 03:56:47.086527: I tensorflow/core/common_runtime/gpu/gpu_device.cc:917]      0
+2019-10-23 03:56:47.086538: I tensorflow/core/common_runtime/gpu/gpu_device.cc:930] 0:   N
+2019-10-23 03:56:47.086772: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1041] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10397 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:05:00.0, compute capability: 6.1)
+INFO:tensorflow:Restoring parameters from /mnist/model.ckpt-2002
+INFO:tensorflow:Assets added to graph.
+INFO:tensorflow:No assets to write.
+INFO:tensorflow:SavedModel written to: /mnist/export/temp-1571803007/saved_model.pb
+Successfully downloaded train-images-idx3-ubyte.gz 9912422 bytes.
+Extracting /tmp/data/train-images-idx3-ubyte.gz
+Successfully downloaded train-labels-idx1-ubyte.gz 28881 bytes.
+Extracting /tmp/data/train-labels-idx1-ubyte.gz
+Successfully downloaded t10k-images-idx3-ubyte.gz 1648877 bytes.
+Extracting /tmp/data/t10k-images-idx3-ubyte.gz
+Successfully downloaded t10k-labels-idx1-ubyte.gz 4542 bytes.
+Extracting /tmp/data/t10k-labels-idx1-ubyte.gz
+Train and evaluate
+Training done
+Export saved model
+Done exporting the model

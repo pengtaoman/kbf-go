@@ -1,0 +1,147 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "annotations": {
+          "cni.projectcalico.org/podIP": "192.168.0.133/32"
+        },
+        "creationTimestamp": "2019-10-16T12:38:58Z",
+        "generateName": "web-ui-648b879699-",
+        "labels": {
+          "app": "web-ui",
+          "pod-template-hash": "648b879699"
+        },
+        "name": "web-ui-648b879699-krpc7",
+        "namespace": "kubeflow",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "ReplicaSet",
+            "name": "web-ui-648b879699",
+            "uid": "ec8c3b2d-f011-11e9-959a-2c4d5443b5c3"
+          }
+        ],
+        "resourceVersion": "35996861",
+        "selfLink": "/api/v1/namespaces/kubeflow/pods/web-ui-648b879699-krpc7",
+        "uid": "ec8dfb5f-f011-11e9-959a-2c4d5443b5c3"
+      },
+      "spec": {
+        "containers": [
+          {
+            "image": "yangyue5/web-ui:param",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "web-ui",
+            "ports": [
+              {
+                "containerPort": 5000,
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {},
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "default-token-hr9v6",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "junnan-gpu",
+        "priority": 0,
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {},
+        "serviceAccount": "default",
+        "serviceAccountName": "default",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "name": "default-token-hr9v6",
+            "secret": {
+              "defaultMode": 420,
+              "secretName": "default-token-hr9v6"
+            }
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2019-10-16T12:38:58Z",
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2019-10-16T12:39:01Z",
+            "status": "True",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2019-10-16T12:39:01Z",
+            "status": "True",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2019-10-16T12:38:58Z",
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "containerID": "docker://3bd931bd07234ff61f4ca8b474579ac231d880098239d84b6abf714b3f5becf3",
+            "image": "yangyue5/web-ui:param",
+            "imageID": "docker://sha256:0c8a78ccdfe4f94d775ba357b1c24fb7df3e5b6112c10baf011699e757ea03a1",
+            "lastState": {},
+            "name": "web-ui",
+            "ready": true,
+            "restartCount": 0,
+            "state": {
+              "running": {
+                "startedAt": "2019-10-16T12:39:01Z"
+              }
+            }
+          }
+        ],
+        "hostIP": "10.1.1.12",
+        "phase": "Running",
+        "podIP": "192.168.0.133",
+        "qosClass": "BestEffort",
+        "startTime": "2019-10-16T12:38:58Z"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": "",
+    "selfLink": ""
+  }
+}

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/kbf.css">
+</head>
+<body>
+<div id="app">
+    <el-header style="text-align: right; font-size: 12px">
+        <el-button @click="openDia">Create</el-button>
+
+        <el-dialog :visible.sync="visible" style="text-align: left; font-size: 9px; width:100%;"
+                   title="添加预测服务"
+                   :show-close=false
+                   :close-on-click-modal=false>
+            <el-form ref="form" :model="form" label-width="160px">
+                <el-form-item label="pv/pvc name" prop="pvname">
+                    <el-input v-model="form.pvname"></el-input>
+                </el-form-item>
+                <el-form-item label="pvcMountPath" prop="pvcMountPath">
+                    <el-input v-model="form.pvcMountPath"></el-input>
+                </el-form-item>
+                <el-form-item label="modelBasePath" prop="labels">
+                    <el-input v-model="form.modelBsePath"></el-input>
+                </el-form-item>
+                <el-form-item label="Image" prop="image">
+                    <el-input v-model="form.image"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button  @click="visible = false">关闭</el-button>
+                <el-button  @click="createPredict" type="primary">添加</el-button>
+            </div>
+        </el-dialog>
+    </el-header>
+    <el-container style="height:100%; border: 1px solid #eee">
+        <el-aside width="200px">
+            <el-menu :default-openeds="['2']" default-active="2-3">
+                <el-submenu index="2">
+                    <template slot="title"><i class="el-icon-menu"></i>KBF</template>
+                    <el-menu-item-group>
+                        <el-menu-item index="2-1" @click="clickPV">PV/PVC</el-menu-item>
+                        <el-menu-item index="2-2" @click="clickTFJ">TFJob</el-menu-item>
+                        <el-menu-item index="2-3" @click="clickMod">模型预测</el-menu-item>
+                        <el-menu-item index="2-4" @click="clickSig">单机训练</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+            </el-menu>
+        </el-aside>
+
+        <el-container style="height:100%; border: 1px solid #eee" direction="vertical">
+            <el-main>
+                <el-table :data="tableData">
+                    <el-table-column prop="name" label="名称">
+                    </el-table-column>
+                    <el-table-column prop="" label="hostIP">
+                        <template slot-scope="scope">
+                            <el-button @click="clickHostIP(scope.row.hostIP)" type="text" size="small">{{scope.row.hostIP}}</el-button>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="nodeName" label="nodeName">
+                    </el-table-column>
+                    <el-table-column prop="status" label="状态">
+                    </el-table-column>
+                    <el-table-column prop="startTime" label="开始时间">
+                    </el-table-column>
+                    <el-table-column
+                            fixed="right"
+                            label="操作"
+                            width="100">
+                        <template slot-scope="scope">
+                            <el-button @click="deletePredict(scope.row)" type="text" size="small">删除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </el-main>
+        </el-container>
+    </el-container>
+
+</div>
+
+
+<script src="js/vue.min.js"></script>
+<script src="js/elementui/index.js"></script>
+<script src="js/axios.min.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                visible: false,
+                form:{
+                    pvname:'',
+                    pvcMountPath:'',
+                    modelBsePath:'',
+                    image:''
+                },
+                tableData: [],
+            }
+        },
+        methods:{
+            clickTFJ: function(){
+                location.href="/html/tfj.html"
+            },
+            clickPV: function(){
+                location.href="/html"
+            },
+            clickMod: function(){
+                location.href="/html/predict.html"
+            },
+            clickSig: function(){
+                location.href="/html/single.html"
+            },
+            openDia: function() {
+                this.visible = true
+                if(this.$refs["form"]) this.$refs["form"].resetFields()
+            },
+            clickHostIP: function(hostip) {
+                window.open("http://"+hostip+":30111");
+            },
+            deletePredict: function(row) {
+
+                let _self = this
+                this.$confirm('是否删除模型:'+row.name+'?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.get('/delete-predict/' + row.namespace).then(function(response) {
+                        if (response.status === 200) {
+
+                            const h = _self.$createElement;
+                            _self.$notify({
+                                title: '操作提示',
+                                message: h('i', { style: 'color: teal'}, '删除模型成功.')
+                            });
+                            _self.getUIPod()
+
+                            axios.get('/configmap').then(function(response) {
+                                if (response.status === 200) {
+                                    let jsonObj = JSON.parse(response.data.message)
+                                    console.log("########### configmap #################")
+                                    console.log(jsonObj)
+                                    let pvRows = []
+                                    jsonObj.items.forEach((item) => {
+                                        if(item.data.name === "mnist-map-serving") {
+                                            let configMapName = item.metadata.name
+                                            console.log("########### configmap-remove : " + configMapName)
+                                            axios.get('/configmap-remove/'+configMapName).then(function(response) {
+                                                if (response.status === 200) {
+                                                    const h = _self.$createElement;
+                                                    _self.$notify({
+                                                        title: '操作提示',
+                                                        message: h('i', { style: 'color: teal'}, '删除ConfigMap成功。')
+                                                    });
+                                                }
+                                            }).catch(function (error) { // 请求失败处理
+                                                console.log(error);
+                                            });
+                                            return true
+                                        }
+                                    })
+                                }
+                            }).catch(function (error) { // 请求失败处理
+                                console.log(error);
+                            });
+
+                        }
+                    }).catch(function (error) { // 请求失败处理
+                        console.log(error);
+                    });
+
+
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            getUIPod: function() {
+                let _self = this
+                axios.get('/uipod').then(function(response) {
+                    let pvRows = []
+                    if (response.status === 200) {
+                        let jsonObj = JSON.parse(response.data.message)
+                        console.log("########### getPV data #################")
+                        console.log(jsonObj)
+
+                        jsonObj.items.forEach((item) => {
+                            let pvRow = {
+                                name:item.metadata.name,
+                                hostIP:item.status.hostIP,
+                                nodeName:item.spec.nodeName,
+                                namespace:item.metadata.namespace,
+                                status:item.status.phase,
+                                startTime:item.status.startTime,
+                            }
+                            pvRows.push(pvRow)
+                        })
+                        _self.tableData = pvRows
+                    }
+                }).catch(function (error) { // 请求失败处理
+                    console.log(error);
+                });
+            },
+            createPredict: function() {
+                let _self = this
+                let postData = JSON.parse(JSON.stringify(this.form))
+                this.$refs["form"].validate((valid) => {
+                        if (valid) {
+                            axios.post('/create-predict', postData).then(function (response) {
+                                if(response.status === 200) {
+                                    const h = _self.$createElement;
+                                    _self.$notify({
+                                        title: '操作提示',
+                                        message: h('i', { style: 'color: teal'}, '添加预测服务成功。')
+                                    });
+                                    _self.getUIPod()
+                                    _self.visible = false
+                                } else {
+                                    const h = _self.$createElement;
+                                    _self.$notify({
+                                        title: '操作提示',
+                                        message: h('i', { style: 'color: teal'}, 'ERROR:'+response.message)
+                                    });
+                                }
+                            })
+                        }
+                    }
+                )
+            }
+        },
+        mounted: function() {
+            let _self = this
+            _self.getUIPod()
+        }
+    })
+</script>
+</body>
+</html>
